@@ -1,4 +1,5 @@
 import torch
+import os
 from model.encoder.encoders import TransformerTextEncoder, GraphEncoder, FeatureFusion, VectorQuantization
 from model.decoder.decoder import GraphDecoder
 
@@ -61,7 +62,8 @@ def load_model(device=None):
         "vector_quantizer": VectorQuantization(codebook_size=512, embedding_dim=128).to(device),
         "graph_decoder": GraphDecoder(latent_dim=128, node_dim=3).to(device),
     }
-    state_path = r"D:\Studies\FinalYear\FYP\AutoMeshAPI\model\trained_model.pth"
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    state_path = os.path.join(dir_path, "trained_model.pth")
     # Load the saved state dictionaries
     saved_state = torch.load(state_path, map_location=device)
     for name, part in model.items():
